@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<script
+        src="https://code.jquery.com/jquery-1.12.4.js"
+        integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.19.1/js/jquery.fileupload.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("ready");
+
+        $('#upload_btn').on('click', function () {
+            if (confirm('Want to upload a image or a video file?')) {
+                var data = new FormData();
+                data.append("file", $('#file').prop('files')[0]);
+                console.log(data);
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "/file_upload",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        console.log("SUCCESS : ", data.result);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<body>
+<h3>INDEX</h3>
+
+<hr/>
+
+<div class="form-group">
+
+    <label for="objectUrl" class="col-xs-2 control-label"><span class="fa fa-fw fa-bars"></span>이미지/동영상 업로드</label>
+    <br/>
+
+
+    <div class="col-xs-10">
+
+        <label><input type="file" name="file" id="file"/></label>
+        <button type="button" class="btn btn-danger btn-upload" id="upload_btn">file upload</button>
+
+    </div>
+
+</div>
+
+</body>
+</html>
